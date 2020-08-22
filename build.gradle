@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.aws.harsha'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '8'
 
 configurations {
 	compileOnly {
@@ -20,17 +20,24 @@ repositories {
 
 ext {
 	set('springCloudVersion', "Hoxton.SR7")
+	set('springCloudFunctionVersion', "3.0.0.BUILD-SNAPSHOT")
+	set('awsLambdaEventsVersion', "2.0.2")
+	set('awsLambdaCoreVersion', "1.1.0")
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.cloud:spring-cloud-function-web'
+	compile("org.springframework.cloud:spring-cloud-function-adapter-aws")
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	compileOnly("com.amazonaws:aws-lambda-java-events:${awsLambdaEventsVersion}")
+	compileOnly("com.amazonaws:aws-lambda-java-core:${awsLambdaCoreVersion}")
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testImplementation 'io.projectreactor:reactor-test'
 }
 
